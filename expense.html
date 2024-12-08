@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #ffffff;
+      color: #333;
+      border-radius: 12px;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-section, .expense-list-section, .chart-section {
+      margin: 1.5rem 0;
+    }
+
+    input, select, button {
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      outline: none;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    #expense-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    #expense-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+      background-color: #f4f4f9;
+      color: #333;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    #expense-list li:hover {
+      transform: scale(1.02);
+      background-color: #e0e0eb;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .delete-btn:hover {
+      background: #b02a37;
+      transform: scale(1.1);
+    }
+
+    .chart-section canvas {
+      animation: popIn 1.5s ease;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Expense Tracker</h1>
+    <div class="form-section">
+      <input type="text" id="expense-name" placeholder="Expense Name">
+      <input type="number" id="expense-amount" placeholder="Amount">
+      <select id="expense-category">
+        <option value="Food">Food</option>
+        <option value="Travel">Travel</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Others">Others</option>
+      </select>
+      <button id="add-expense">Add Expense</button>
+    </div>
+    <div class="expense-list-section">
+      <h2>Transactions</h2>
+      <ul id="expense-list"></ul>
+    </div>
+    <div class="chart-section">
+      <h2>Spending Breakdown</h2>
+      <canvas id="expense-chart"></canvas>
+    </div>
+  </div>
+  <script>
+    // Data storage
+    const transactions = [];
+    const chartData = { Food: 0, Travel: 0, Shopping: 0, Others: 0 };
+
+    // DOM Elements
+    const expenseNameInput = document.getElementById("expense-name");
+    const expenseAmountInput = document.getElementById("expense-amount");
+    const expenseCategorySelect = document.getElementById("expense-category");
+    const expenseList = document.getElementById("expense-list");
+    const addExpenseBtn = document.getElementById("add-expense");
+    const expenseChart = document.getElementById("expense-chart");
+
+    // Initialize Chart
+    let chartInstance = new Chart(expenseChart, {
+      type: "pie",
+      data: {
+        labels: Object.keys(chartData),
+        datasets: [
+          {
+            data: Object.values(chartData),
+            backgroundColor: ["#ff6384", "#36a2eb", "#ffce56", "#4bc0c0"],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+      },
+    });
+
+    // Add Expense
+    addExpenseBtn.addEventListener("click", () => {
+      const name = expenseNameInput.value.trim();
+      const amount = parseFloat(expenseAmountInput.value);
+      const category = expenseCategorySelect.value;
+
+      if (!name || isNaN(amount) || amount <= 0) {
+        alert("Please enter valid data");
+        return;
+      }
+
+      // Update transactions
+      const transaction = { name, amount, category };
+      transactions.push(transaction);
+      chartData[category] += amount;
+
+      // Update UI and Chart
+      updateTransactionList();
+      updateChart();
+
+      // Clear Inputs
+      expenseNameInput.value = "";
+      expenseAmountInput.value = "";
+    });
+
+    // Update Transaction List
+    function updateTransactionList() {
+      expenseList.innerHTML = "";
+      transactions.forEach((transaction, index) => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+          ${transaction.name} - $${transaction.amount.toFixed(2)} (${transaction.category})
+          <button class="delete-btn" onclick="deleteTransaction(${index})">Delete</button>
+        `;
+        expenseList.appendChild(listItem);
+      });
+    }
+
+    // Delete Transaction
+    function deleteTransaction(index) {
+      const removed = transactions.splice(index, 1)[0];
+      chartData[removed.category] -= removed.amount;
+
+      // Update UI and Chart
+      updateTransactionList();
+      updateChart();
+    }
+
+    // Update Chart
+    function updateChart() {
+      chartInstance.data.datasets[0].data = Object.values(chartData);
+      chartInstance.update();
+    }
+  </script>
+</body>
+</html>

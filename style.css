@@ -1,0 +1,487 @@
+/* General Body Styling */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white; /* Set default text color to white */
+    background-color: #000; /* Black background for the entire page */
+    line-height: 1.6;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #111; /* Darker background for navbar */
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Add smooth animation */
+}
+
+.nav-links a:hover {
+    background-color: #3498db; /* Change color on hover */
+    transform: scale(1.1); /* Slightly increase the size on hover */
+}
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    padding: 150px 20px; /* Increased padding for larger display */
+    background-color: #111; /* Dark background for contrast */
+    background-image: linear-gradient(135deg, #1e1e1e 25%, #111 100%);
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.hero-section .highlight {
+    color: #3498db;
+}
+
+.hero-section p {
+    font-size: 20px;
+    color: #bbb; /* Light gray color for subtitle */
+    margin-bottom: 30px;
+}
+
+.hero-section .btn {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Animation */
+}
+
+.hero-section .btn:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scale up */
+}
+
+/* About Section */
+.about-section {
+    padding: 80px 20px;
+    background-color: #000; /* Keep black background */
+}
+
+.about-section h2 {
+    font-size: 36px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-size: 18px;
+    color: #bbb;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.skills {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    text-align: center;
+}
+
+.skill {
+    background-color: #111;
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    flex: 1;
+    min-width: 150px;
+}
+
+.skill:hover {
+    transform: translateY(-10px);
+}
+
+.skill h3 {
+    font-size: 24px;
+    color: #3498db;
+    margin-bottom: 10px;
+}
+
+.skill p {
+    font-size: 16px;
+    color: #bbb;
+}
+
+/* Projects Section */
+.body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white;
+    background-color: #000;
+    line-height: 1.6;
+}
+
+/* Projects Section */
+.projects-section {
+    padding: 80px 20px;
+    background-color: #000;
+}
+
+.projects-section h2 {
+    font-size: 36px;
+    color: white;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.projects-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.project-card {
+    background-color: #111;
+    padding: 0; /* Remove padding */
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    min-width: 280px;
+    max-width: 32%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the content */
+}
+
+.project-card:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+/* Thumbnail Image */
+.thumbnail {
+    width: 100%;
+    height: auto; /* Ensure the image scales proportionally */
+    display: block; /* Remove inline gaps */
+}
+
+/* Project Info Overlay */
+.project-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.project-card:hover .project-info {
+    opacity: 1;
+}
+
+.project-info h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.project-info p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.project-info .btn {
+    background-color: #3498db;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.project-info .btn:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .projects-grid {
+        flex-direction: column;
+    }
+
+    .project-card {
+        max-width: 150%;
+    }
+}
+/* Contact Section */
+.contact-section {
+    padding: 80px 20px;
+    background-color: #111;
+    text-align: center;
+}
+
+.contact-section h2 {
+    font-size: 36px;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.contact-section form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    color: white;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #222;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05); /* Scale up on hover */
+}
+
+/* Footer Section */
+footer {
+    background-color: #111;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer p {
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+footer .social-links a {
+    color: #3498db;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer .social-links a:hover {
+    color: #2980b9;
+}
+
+/* Hover Effects and Animations */
+.nav-links a:hover {
+    background-color: #3498db;
+    transform: scale(1.1) rotate(3deg); /* Add slight rotation */
+    transition: all 0.3s ease-in-out;
+}
+
+.skill:hover {
+    transform: translateY(-15px) rotate(1deg);
+    transition: all 0.4s ease-in-out;
+}
+
+.project-card:hover {
+    transform: translateY(-10px) scale(1.05); /* Scale up */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Mobile Menu Button */
+.menu-btn {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    justify-content: space-around;
+    height: 24px;
+    cursor: pointer;
+}
+
+.menu-bar {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Navigation Styles */
+@media (max-width: 768px) {
+    /* Hero Section Adjustments */
+    .hero-section {
+        padding: 80px 20px;
+    }
+
+    /* Adjust Projects Grid */
+    .projects-grid {
+        flex-direction: column;
+    }
+
+    /* Ensure Project Cards are same height */
+    .project-card {
+        max-width: 100%;
+        min-height: 350px; /* Set a minimum height */
+    }
+
+    /* Use display: flex for skills and projects */
+    .skills {
+        flex-direction: column;
+    }
+
+    .skills .skill {
+        margin-bottom: 20px;
+    }
+
+    /* Navbar Adjustments */
+    .menu-btn {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background-color: #111;
+        padding: 20px;
+        border-radius: 8px;
+        width: 200px;
+    }
+
+    .nav-links.active {
+        display: flex; /* Show the menu when active */
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+    }
+
+    /* Hero Section Background Adjustment */
+    .hero-section {
+        background-color: #111;
+        padding: 100px 20px; /* Increased padding for better visibility */
+    }
+
+    .hero-section h1 {
+        font-size: 32px;
+    }
+
+    .hero-section p {
+        font-size: 18px;
+    }
+
+    .hero-section .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Smooth Scrolling (Optional) */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Additional Aesthetic Enhancements */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nav-links.active li {
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: 0.1s; /* Staggered animation for links */
+}
+
+/* Ensure consistent box-sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
