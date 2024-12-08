@@ -18,7 +18,7 @@ body {
 
 /* Navbar Styling */
 .navbar {
-    background-color: #111; /* Darker background for navbar */
+    background-color: #1e1e1e; /* Darker background for navbar */
     padding: 20px 0;
     position: sticky;
     top: 0;
