@@ -1,113 +1,93 @@
-// Elements for the start page and quiz
-const startBtn = document.getElementById('start-btn');
-const quizContainer = document.getElementById('quiz');
-const startContainer = document.getElementById('start-container');
-
-// Start quiz button click event
-startBtn.addEventListener('click', () => {
-    // Hide the start page and show the quiz
-    startContainer.style.display = 'none';
-    quizContainer.style.display = 'block';
-    
-    // Load the first question
-    loadQuiz();
+// Scroll to the top on page load or refresh
+window.addEventListener('load', function () {
+    window.scrollTo(0, 0); // This scrolls the page to the top
 });
 
-// Sample quiz questions
-const quizData = [
-    {
-        question: "What is the capital of France?",
-        a: "Berlin",
-        b: "Madrid",
-        c: "Paris",
-        d: "Rome",
-        correct: "c"
-    },
-    {
-        question: "Which language runs in a web browser?",
-        a: "Java",
-        b: "C",
-        c: "Python",
-        d: "JavaScript",
-        correct: "d"
-    },
-    {
-        question: "Who is the Prime Minister of the UK?",
-        a: "Joe Biden",
-        b: "Rishi Sunak",
-        c: "Boris Johnson",
-        d: "Angela Merkel",
-        correct: "b"
-    },
-];
+// Toggle Mobile Menu
+const menuBtn = document.getElementById('menu-btn');
+const navLinks = document.getElementById('nav-links');
 
-// Initial variables
-let currentQuiz = 0;
-let score = 0;
+menuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+});
 
-// DOM Elements
-const questionEl = document.getElementById('question');
-const answerEls = document.querySelectorAll('.answer');
-const a_text = document.getElementById('a_text');
-const b_text = document.getElementById('b_text');
-const c_text = document.getElementById('c_text');
-const d_text = document.getElementById('d_text');
-const submitBtn = document.getElementById('submit');
+// Smooth scroll for navigation links with menu closure
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
 
-// Load the quiz question
-function loadQuiz() {
-    deselectAnswers();
+        // Close the mobile menu
+        navLinks.classList.remove('active');
 
-    const currentQuizData = quizData[currentQuiz];
-
-    questionEl.innerText = currentQuizData.question;
-    a_text.innerText = currentQuizData.a;
-    b_text.innerText = currentQuizData.b;
-    c_text.innerText = currentQuizData.c;
-    d_text.innerText = currentQuizData.d;
-}
-
-// Deselect all answers
-function deselectAnswers() {
-    answerEls.forEach(answerEl => answerEl.checked = false);
-}
-
-// Get selected answer
-function getSelected() {
-    let answer;
-    answerEls.forEach(answerEl => {
-        if (answerEl.checked) {
-            answer = answerEl.id;
-        }
+        // Smooth scroll to the target section
+        const targetId = link.getAttribute('href');
+        document.querySelector(targetId).scrollIntoView({
+            behavior: 'smooth'
+        });
     });
-    return answer;
-}
-
-// Submit answer and move to the next question
-submitBtn.addEventListener('click', () => {
-    const answer = getSelected();
-
-    if (answer) {
-        if (answer === quizData[currentQuiz].correct) {
-            score++;
-        }
-
-        currentQuiz++;
-
-        if (currentQuiz < quizData.length) {
-            loadQuiz();
-        } else {
-            quizContainer.innerHTML = `<h2>You answered ${score}/${quizData.length} questions correctly!</h2>
-            <button onclick="location.reload()">Restart Quiz</button>`;
-        }
-    }
 });
-window.onload = function() {
-    window.location.href = "#home";
+
+// Enhanced Scroll Animation
+const scrollSections = document.querySelectorAll('.scroll-section');
+
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1 // Trigger when 10% of the section is visible
 };
 
-// Add an alert message on form submission
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-    alert(" The form submitted successfully !!");
+const scrollObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+// Observe all scroll sections
+scrollSections.forEach(section => {
+    section.classList.add('scroll-bottom-to-top');  // Add your chosen animation class
+    scrollObserver.observe(section);
 });
+
+// Form Submission
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        const form = event.target;
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: { 'Accept': 'application/json' },
+            });
+
+            const statusDiv = document.getElementById('form-status');
+            if (response.ok) {
+                statusDiv.innerHTML = "<p>Thank you! Your message has been sent.</p>";
+                form.reset(); // Clear the form fields
+            } else {
+                statusDiv.innerHTML = "<p>Oops! There was a problem sending your message.</p>";
+            }
+        } catch (error) {
+            const statusDiv = document.getElementById('form-status');
+            statusDiv.innerHTML = "<p>Oops! Something went wrong. Please try again later.</p>";
+        }
+    });
+}
+
+// Apply reduced animation on scroll sections (CSS styles in JavaScript for reference)
+.scroll-section {
+    opacity: 0; /* Initially hide sections */
+    transform: translateY(15px); /* Reduced intensity */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Slightly slower for a smoother effect */
+}
+
+.scroll-section.visible {
+    opacity: 1;
+    transform: translateY(0); /* Reduced intensity in the scroll animation */
+}
