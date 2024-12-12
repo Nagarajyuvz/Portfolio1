@@ -485,3 +485,30 @@ html {
 *::after {
     box-sizing: border-box;
 }
+/* Existing CSS from your original file, plus these additions: */
+
+//* Simple Scroll Reveal Animation */
+.scroll-section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ensure consistent timing for all sections */
+.scroll-section:nth-child(even),
+.scroll-section:nth-child(odd) {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-section:nth-child(even).visible,
+.scroll-section:nth-child(odd).visible {
+    opacity: 1;
+    transform: translateY(0);
+}
