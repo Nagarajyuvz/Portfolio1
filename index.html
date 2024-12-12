@@ -11,12 +11,10 @@
 </head>
 
 <body>
-
-    <!-- Navbar -->
+    <!-- Navbar (unchanged) -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">Personal Portfolio</div>
-            <!-- Mobile Menu Button -->
             <div class="menu-btn" id="menu-btn">
                 <span class="menu-bar"></span>
                 <span class="menu-bar"></span>
@@ -31,8 +29,8 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-section">
+    <!-- Hero Section (unchanged) -->
+    <section id="home" class="hero-section scroll-section">
         <div class="container">
             <h1>Hello, I'm <span class="highlight">Nagaraj M</span></h1>
             <p>An Aspiring Full Stack Developer & College Student</p>
@@ -41,13 +39,10 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about-section">
+    <section id="about" class="about-section scroll-section">
         <div class="container">
             <h2>About Me</h2>
-            <p>
-                I am an enthusiastic full-stack developer currently pursuing a degree in Computer Applications. Here’s a list of my technical skills and
-                the projects I’ve worked on.
-            </p>
+            <p>I am an enthusiastic full-stack developer passionate about creating innovative web solutions.</p>
             <div class="skills">
                 <div class="skill">
                     <h3>Frontend</h3>
@@ -66,15 +61,15 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects-section">
+    <section id="projects" class="projects-section scroll-section">
         <div class="container">
             <h2>My Projects</h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <img src="img/79f2f089ba7cf85bb9b7e5f26d005139d15f0463-1440x835-removebg-preview.png" alt="Quiz Website Thumbnail" class="thumbnail">
+                    <img src="img/79f2f089ba7cf85bb9b7e5f26d005139d15f0463-1440x835-removebg-preview.png" alt="Expense Tracker Thumbnail" class="thumbnail">
                     <div class="project-info">
                         <h3>Expense Tracker</h3>
-                        <p>It is a Expense Tracker website built using HTML, CSS, and JavaScript.</p>
+                        <p>An Expense Tracker website built using HTML, CSS, and JavaScript.</p>
                         <a href="expense.html" class="btn">View Project</a>
                     </div>
                 </div>
@@ -82,7 +77,7 @@
                     <img src="img/custom_widget_qr_code_tall_cover.png" alt="QR Code Generator Thumbnail" class="thumbnail">
                     <div class="project-info">
                         <h3>QR Code Generator</h3>
-                        <p>The generator creates a QR code for text or URLs, built using HTML, CSS, and JS.</p>
+                        <p>A QR code generator for text or URLs, built using HTML, CSS, and JS.</p>
                         <a href="qrindex.html" class="btn">View Project</a>
                     </div>
                 </div>
@@ -91,7 +86,7 @@
                     <div class="project-info">
                         <h3>Food Order Website</h3>
                         <p>A food ordering website built using HTML, CSS, and JavaScript.</p>
-                        <a href="Foodindex.html" class="btn">View Project</a>
+                        <a href="Food-Order-Website/index.html" class="btn">View Project</a>
                     </div>
                 </div>
             </div>
@@ -99,28 +94,28 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact-section">
+    <section id="contact" class="contact-section scroll-section">
         <div class="container">
             <h2>Contact Me</h2>
-            <form id="contact-form">
+            <form id="contact-form" action="https://formspree.io/f/xjkvdpvq" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" id="name" required>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" required>
+                    <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea id="message" rows="5" required></textarea>
+                    <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
                 <button type="submit" class="btn">Send Message</button>
             </form>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (unchanged) -->
     <footer>
         <div class="container">
             <p>© 2024 Nagaraj. All rights reserved.</p>
@@ -141,22 +136,48 @@
             navLinks.classList.toggle('active');
         });
 
-        // Redirect to the homepage section (id="home") when the page is refreshed
-        window.onload = function () {
-            window.location.href = "#home";
-        };
-
-        // Add an alert message on form submission
-        document.getElementById('contact-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent form submission
-            alert("The form submitted successfully!");
-            // Optionally, you can reset the form here
-            event.target.reset();
+        // Smooth scroll for navigation links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu after selection
+                navLinks.classList.remove('active');
+            });
         });
 
-        // Quiz Functionality (Optional)
-        // Ensure your quiz HTML elements exist if you're integrating the quiz
-        // If not, you can remove this script section
+        // Enhanced Scroll Animation
+        const scrollSections = document.querySelectorAll('.scroll-section');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll sections
+        scrollSections.forEach(section => {
+            scrollObserver.observe(section);
+        });
+
+        // Form Submission
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            alert("The form submitted successfully!");
+            event.target.reset();
+        });
     </script>
 </body>
 
